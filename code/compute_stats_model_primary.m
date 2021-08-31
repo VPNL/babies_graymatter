@@ -1,4 +1,6 @@
 function []=compute_stats_model_primary()
+%% this code is useful for generating figure 1. This produced Figures related to development in T1 in the first 6 months of life in the primary sensory-motor regions.
+
 %%%%%%%% models %%%%%%%%
 cd('/share/kalanit/biac2/kgs/projects/babybrains/mri/results/density/scatter_plots/');
 prim_R= load('All_primary_T1_right');
@@ -33,6 +35,7 @@ color = [[255 153 51]/255; [51 153 255]/255; [255 255 51]/255; [153 255 51]/255]
 color = [[255 178 102]/255; [153 204 255]/255; [255 102 102]/255; [178 255 102]/255];
 roi_list={'V1_ROI' 'A1_ROI' '3b_ROI' '4_ROI'};
 
+%% left hemisphere 
 figure; set(gcf,'color','white'); 
 
 inC1=[]; slP1=[];  inCSE1=[]; slPSE1=[]; Rsq=[]
@@ -70,7 +73,6 @@ for roi =1:length(roi_list)
     hold off;
     model1{roi} = lme1;
 end
-keyboard
 
 pos = get(hA(1),'position');
 pos(1)=.1; set(hA(1),'position', pos)
@@ -104,100 +106,6 @@ for i=1:length(roi_list)
     errorbar([i], slP1(i), slPSE1(i), 'color', color(i,:),'Linewidth', 3);
 end
 
-
-
-%% MODEL 2
-%% random slope and random intercept
-figure; set(gcf,'color','white');
-inC2=[]; slP2=[];  inCSE2=[]; slPSE2=[];
-%% build a table/model per roi
-for roi =1:length(roi_list)
-    T1mean= prim_L.All_T1(:,roi);
-    tbl= table(age', T1mean, [1 1 1 2 2 2 3 3 3 4 4 4 5 5 6 6 6 7 7 7 8 8 8 9 9 10 11 11 12 13]','VariableNames',{'Age','T1mean','Baby'})
-    lme2= fitlme(tbl,'T1mean~ 1 + Age +(1+ Age| Baby)')
-    
-    hA(roi)=subplot(1, length(roi_list),roi); hold;
-    x = 0:180; y = lme2.Coefficients.Estimate(1) + (lme2.Coefficients.Estimate(2))*x;
-    inC2(roi) = lme2.Coefficients.Estimate(1);
-    slP2(roi) = lme2.Coefficients.Estimate(2);
-    
-    inCSE2(roi) = lme2.Coefficients.SE(1);
-    slPSE2(roi) = lme2.Coefficients.SE(2);
-    %% this plots the corr line
-    plot(x,y, 'color', color(roi,:))
-    %xlabel('Age [in days]', 'FontSize', 14, 'Fontweight', 'bold', 'Color', [0 0 0]);
-    %ylabel('T1 [s]', 'FontSize',14, 'Fontweight', 'bold', 'Color', [0 0 0]);
-    axis([0 200 1.5 2.4]);
-    set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'white' 'white'}); grid on;
-    h1=scatter([age],[T1mean], 150, [age], 'filled',  'MarkerFacecolor', color(roi,:),'MarkerEdgecolor', [.7 .7 .7]); colormap([color(roi,:); color(roi,:)]); % colorbar('eastoutside');
-    [R p]= corrcoef(T1mean,age)
-    title([' roi: ',roi_list{roi}, ' R = ', num2str(R(1,2)),  ' p = ', num2str(p(1,2))], 'FontSize', 6,'Fontweight', 'bold', 'Color', [0 0 0]);
-    hold off;
-    model2{roi} = lme2;
-end
-
-pos = get(hA(1),'position');
-pos(1)=.1; set(hA(1),'position', pos)
-pos = get(hA(2),'position');
-pos(1)=.28; set(hA(2),'position', pos)
-pos = get(hA(3),'position');
-pos(1)=.46; set(hA(3),'position', pos)
-pos = get(hA(4),'position');
-pos(1)=.64; set(hA(4),'position', pos)
-
-
-figure;
-set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
-set(gcf,'color','white'); hold;
-axis([0 4 2 2.4]); 
-title('random intercept/slope')
-for i=1:length(roi_list)
-    
-    scatter([i],[inC2(i)], 220, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], inC2(i), inCSE2(i), 'color', color(i,:));
-end
-
-figure;
-set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
-set(gcf,'color','white'); hold;
-axis([0 4 -0.0032 -0.0018]);
-title('random intercept/random Slope')
-for i=1:length(roi_list)
-    scatter([i],[slP2(i)], 220, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], slP2(i), slPSE2(i), 'color', color(i,:));
-end
-
-
-%%%%%% combine slope %%%%%
-figure;
-set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
-set(gcf,'color','white'); hold;
-axis([0 4 -0.0035 -0.001]); title('Model comparison- Slope')
-for i=1:length(roi_list)
-    
-    scatter([i],[slP2(i)], 100, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], slP2(i), slPSE2(i), 'color', color(i,:));
-    scatter([i],[slP1(i)], 100, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], slP1(i), slPSE1(i), 'color', color(i,:));
-    
-end
-
-%%%%%% combine intercept %%%%%
-figure;
-set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
-set(gcf,'color','white'); hold;
-axis([0 4 2 2.4]);  
-title('Model comparison- Intercept')
-for i=1:length(roi_list)
-    
-    scatter([i],[inC2(i)], 100, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], inC2(i), inCSE2(i), 'color', color(i,:));
-    scatter([i],[inC1(i)], 100, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], inC1(i), inCSE1(i), 'color', color(i,:));
-    modC=compare(model1{i}, model2{i});
-    text([i], [inC1(i)+.04], num2str(modC.pValue),'Color','k', 'Fontsize',8, 'HorizontalAlignment','center');
-    
-end
 
 %% RIGHT HEMI NOW
 %% MODE 1  %% random intercept and fixed slope
@@ -271,99 +179,4 @@ for i=1:length(roi_list)
     errorbar([i], slP1(i), slPSE1(i), 'color', color(i,:),'Linewidth', 3);
 end
 
-
-%% MODEL 2
-%% random slope and random intercept
-figure; set(gcf,'color','white');
-inC2=[]; slP2=[];  inCSE2=[]; slPSE2=[];
-%% build a table/model per roi
-for roi =1:length(roi_list)
-    T1mean= prim_R.All_T1(:,roi);
-    tbl= table(age', T1mean, [1 1 1 2 2 2 3 3 3 4 4 4 5 5 6 6 6 7 7 7 8 8 8 9 9 10 11 11 12 13]','VariableNames',{'Age','T1mean','Baby'})
-    lme2= fitlme(tbl,'T1mean~ 1 + Age +(1+ Age| Baby)')
-    
-    hA(roi)=subplot(1, length(roi_list),roi); hold;
-    x = 0:180; y = lme2.Coefficients.Estimate(1) + (lme2.Coefficients.Estimate(2))*x;
-    inC2(roi) = lme2.Coefficients.Estimate(1);
-    slP2(roi) = lme2.Coefficients.Estimate(2);
-    
-    inCSE2(roi) = lme2.Coefficients.SE(1);
-    slPSE2(roi) = lme2.Coefficients.SE(2);
-    %% this plots the corr line
-    plot(x,y, 'color', color(roi,:))
-    %xlabel('Age [in days]', 'FontSize', 14, 'Fontweight', 'bold', 'Color', [0 0 0]);
-    %ylabel('T1 [s]', 'FontSize',14, 'Fontweight', 'bold', 'Color', [0 0 0]);
-    axis([0 200 1.5 2.4]);
-    set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'white' 'white'}); grid on;
-    h1=scatter([age],[T1mean], 150, [age], 'filled',  'MarkerFacecolor', color(roi,:),'MarkerEdgecolor', [.7 .7 .7]); colormap([color(roi,:); color(roi,:)]); % colorbar('eastoutside');
-    [R p]= corrcoef(T1mean,age)
-%    title([' roi: ',roi_list{roi}, ' R = ', num2str(R(1,2)),  ' p = ', num2str(p(1,2))], 'FontSize', 6,'Fontweight', 'bold', 'Color', [0 0 0]);
-    hold off;
-    model2{roi} = lme2;
-end
-
-pos = get(hA(1),'position');
-pos(1)=.1; set(hA(1),'position', pos)
-pos = get(hA(2),'position');
-pos(1)=.28; set(hA(2),'position', pos)
-pos = get(hA(3),'position');
-pos(1)=.46; set(hA(3),'position', pos)
-pos = get(hA(4),'position');
-pos(1)=.64; set(hA(4),'position', pos)
-
-
-
-figure;
-set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
-set(gcf,'color','white'); hold;
-axis([0 4 2 2.4]); 
-title('random intercept/slope')
-for i=1:length(roi_list)
-    
-    scatter([i],[inC2(i)], 220, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], inC2(i), inCSE2(i), 'color', color(i,:));
-end
-
-figure;
-set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
-set(gcf,'color','white'); hold;
-axis([0 4 -0.0035 -0.001]); 
-title('random intercept/random Slope')
-for i=1:length(roi_list)
-    scatter([i],[slP2(i)], 220, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], slP2(i), slPSE2(i), 'color', color(i,:));
-end
-
-
-%%%%%% combine slope %%%%%
-figure;
-set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
-set(gcf,'color','white'); hold;
-axis([0 4 -0.0035 -0.001]); 
-title('Model comparison- Slope')
-for i=1:length(roi_list)
-    
-    scatter([i],[slP2(i)], 100, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], slP2(i), slPSE2(i), 'color', color(i,:));
-    scatter([i],[slP1(i)], 100, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], slP1(i), slPSE1(i), 'color', color(i,:));
-    
-end
-
-%%%%%% combine intercept %%%%%
-figure;
-set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
-set(gcf,'color','white'); hold;
-axis([0 4 2 2.4]);  
-title('Model comparison- Intercept')
-for i=1:length(roi_list)
-    
-    scatter([i],[inC2(i)], 100, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], inC2(i), inCSE2(i), 'color', color(i,:));
-    scatter([i],[inC1(i)], 100, [i], 'filled',  'MarkerFacecolor', color(i,:),'MarkerEdgecolor', [.7 .7 .7]);
-    errorbar([i], inC1(i), inCSE1(i), 'color', color(i,:));
-    modC=compare(model1{i}, model2{i});
-    text([i], [inC1(i)+.04], num2str(modC.pValue),'Color','k', 'Fontsize',8, 'HorizontalAlignment','center');
-    
-end
 end

@@ -1,4 +1,5 @@
 function []=compute_stats_model_dorsalR1()
+% this code is useful for generating figure 4 and supplementary figure 8 This produces Figures related to development in R1 in the first 6 months of life in the dorsal visual stream
 %%%%%%%% models %%%%%%%%compute_stats_model_dorsal()
 cd('/share/kalanit/biac2/kgs/projects/babybrains/mri/results/density/scatter_plots');
 Dor_R= load('All_dorsal_T1_right');
@@ -75,8 +76,6 @@ for roi =1:length(roi_list)
 end
 
 
-
-
 figure;
 set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
 set(gcf,'color','white'); hold;
@@ -131,10 +130,7 @@ set(gcf,'color','white'); hold;
 
 
   
-  
-
-
-%% RIGHT HEMI NOW
+  %% RIGHT HEMI NOW
 %% MODE 1  %% random intercept and fixed slope
 color = [[32 32 32]/255; [64 64 64]/255;  [96 96 96]/255; [192 192 192]/255;  [204 229 255]/255 ; [153 204 255]/255 ;  [102  178  255]/255 ; [51 153  255]/255; [0 102 204]/255; [0 0 153]/255; [76 0 153]/255; [51 0 102]/255];
 roi_list ={'V1d' 'V2d' 'V3d' 'V3a' 'V3b' 'IPS0' 'IPS1' 'IPS2' 'IPS3' }
@@ -173,7 +169,7 @@ for roi =1:length(roi_list)
     Rsq(roi)=lme1.Rsquared.Ordinary
 end
 
-keyboard
+
 
 figure; diff=[];
 for roi =1:length(roi_list)
@@ -189,7 +185,7 @@ for roi =1:length(roi_list)
    diff(roi)= (mean(f(21:30)) - mean(f(11:20)));
 end
 
-keyboard
+
 figure;
 set(gcf, {'DefaultAxesXColor','DefaultAxesYColor'}, {'k' 'k'});
 set(gcf,'color','white'); hold;
