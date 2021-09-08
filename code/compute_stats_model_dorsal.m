@@ -1,5 +1,5 @@
 function []=compute_stats_model_dorsal()
-% this code is useful for generating figure 2 and supplementary figure 5. This produces Figures related to development in T1 in the first 6 months of life in the dorsal visual stream
+% This code is useful for generating Figure 2 and Supplementary Figure 5. This produces figures related to development in T1 in the first 6 months of life in the dorsal visual stream
 %%%%%%%% models %%%%%%%%compute_stats_model_dorsal()
 cd('/share/kalanit/biac2/kgs/projects/babybrains/mri/results/density/scatter_plots');
 Dor_R= load('All_dorsal_T1_right');
