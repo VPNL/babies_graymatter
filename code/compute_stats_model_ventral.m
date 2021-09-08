@@ -1,9 +1,3 @@
-function []=compute_stats_model_ventral()
-% this code is useful for generating figure 2 and supplementary figure 5. This produces Figures related to development in T1 in the first 6 months of life in the ventral visual stream
-%%%%%%%% models %%%%%%%%
-cd('/share/kalanit/biac2/kgs/projects/babybrains/mri/results/density/scatter_plots');
-Vent_R= load('All_ventral_T1_right');
-Vent_L= load('All_ventral_T1_left');
 
 %% these are the subjects and this is the order
 %% subj= {'bb02_mri0'  'bb02_mri3' 'bb02_mri6' 'bb04_mri0' 'bb04_mri3' 'bb04_mri6' 'bb05_mri0' 'bb05_mri3' 'bb05_mri6' 'bb07_mri0' 'bb07_mri3' 'bb07_mri6'  'bb08_mri3' 'bb08_mri6'  'bb11_mri0' 'bb11_mri3' 'bb11_mri5' 'bb12_mri0' 'bb12_mri3' 'bb12_mri6' 'bb14_mri0' 'bb14_mri3' 'bb14_mri6', 'bb15_mri3' 'bb15_mri6' 'bb17_mri0' 'bb18_mri0' 'bb18_mri3' 'bb19_mri6'  'bb22_mri0'};
