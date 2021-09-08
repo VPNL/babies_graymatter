@@ -1,3 +1,4 @@
+%% Codes for comparing intercepts/slopes from dorsal and ventral streams
 %% T1
 %% ANOVA ventral versus dorsal
 %% intercept Y= (left ventral/right ventral/left dorsal/right dorsal)
