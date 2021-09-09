@@ -1,6 +1,6 @@
 function []=compute_stats_model_primary()
 %% This code is useful for generating Figure 1. This produced figures related to development in T1 in the first 6 months of life in the primary sensory-motor regions.
-
+%% VN 2020
 %%%%%%%% models %%%%%%%%
 cd('/share/kalanit/biac2/kgs/projects/babybrains/mri/results/density/scatter_plots/');
 prim_R= load('All_primary_T1_right');
