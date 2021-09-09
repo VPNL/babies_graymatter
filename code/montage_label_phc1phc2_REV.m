@@ -1,4 +1,5 @@
 %% For visualization of the labels: PHC1, PHC2, Cos-places, and Collateral sulcus on each individual infant's brain using Freesurfer's Freeview visualization tool.
+%% VN 2020
 sessions = {'bb02_mri0','bb04_mri0','bb05_mri0','bb07_mri0','bb11_mri0','bb12_mri0','bb14_mri0','bb17_mri0','bb18_mri0','bb22_mri0' 'bb02_mri3','bb04_mri3','bb05_mri3','bb07_mri3','bb08_mri3','bb11_mri3','bb12_mri3','bb14_mri3','bb15_mri3','bb18_mri3' 'bb02_mri6','bb04_mri6','bb05_mri6','bb07_mri6','bb08_mri6','bb11_mri5','bb12_mri6','bb14_mri6','bb15_mri6','bb19_mri6'} 
 
 for i=1:30
