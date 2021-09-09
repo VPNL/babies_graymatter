@@ -1,5 +1,6 @@
 function []=compute_stats_model_primary_MD()
 % this code is useful for generating Figure 1 and Supplementary Figure 4. This produced figures related to development in MD in the first 6 months of life in the primary sensory-motor regions.
+%% VN 2020
 %%%%%%%% models %%%%%%%%
 cd('/share/kalanit/biac2/kgs/projects/babybrains/mri/results/density/scatter_plots');
 prim_R= load('All_primary_MD_right');
