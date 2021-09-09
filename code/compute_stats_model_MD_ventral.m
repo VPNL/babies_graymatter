@@ -1,6 +1,7 @@
 function []=compute_stats_model_MD_ventral()
 % This code is useful for generating  Supplementary Figure 6. This produces Figures related to development in MD in the first 6 months of life in the ventral visual stream
 %%%%%%%% models %%%%%%%%
+%% VN 2020
 cd('/share/kalanit/biac2/kgs/projects/babybrains/mri/results/density/scatter_plots');
 Vent_R= load('All_ventral_MD_right');
 Vent_L= load('All_ventral_MD_left');
