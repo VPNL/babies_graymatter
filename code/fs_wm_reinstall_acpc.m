@@ -1,5 +1,4 @@
 function [] = fs_wm_reinstall_withgrayclass(subj,sess, clean_pial) 
-%% VN 2020
 %% usage:
 %% [] = fs_wm_reinstall_withgrayclass('bb11', 'mri0',i)
 % This function converts the updated segmentation files (usually called something "class file") into wm.mgz. 
