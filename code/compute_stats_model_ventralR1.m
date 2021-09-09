@@ -1,5 +1,6 @@
 function []=compute_stats_model_ventralR1()
 % this code is useful for generating Figure 4 and Supplementary Figure 8. This produces figures related to development in R1 in the first 6 months of life in the ventral visual stream
+%% VN 2020
 %%%%%%%% models %%%%%%%%
 cd('/share/kalanit/biac2/kgs/projects/babybrains/mri/results/density/scatter_plots');
 Vent_R= load('All_ventral_T1_right');
